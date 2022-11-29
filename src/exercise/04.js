@@ -18,18 +18,21 @@ function Board() {
   // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
   // 💰 I've written the calculations for you! So you can use my utilities
   // below to create these variables
-  const [nextValue, setNextValue] = useLocalStorageState(
-    'nextValue',
-    calculateNextValue(squares),
-  )
-  const [winner, setWinner] = useLocalStorageState(
-    'winner',
-    calculateWinner(squares),
-  )
-  const [status, setStatus] = useLocalStorageState(
-    'status',
-    calculateStatus(winner, squares, nextValue),
-  )
+  // const [nextValue, setNextValue] = useLocalStorageState(
+  //   'nextValue',
+  //   calculateNextValue(squares),
+  // )
+  // const [winner, setWinner] = useLocalStorageState(
+  //   'winner',
+  //   calculateWinner(squares),
+  // )
+  // const [status, setStatus] = useLocalStorageState(
+  //   'status',
+  //   calculateStatus(winner, squares, nextValue),
+  // )
+  let nextValue = calculateNextValue(squares)
+  let winner = calculateWinner(squares)
+  let status = calculateStatus(winner, squares, nextValue)
   // const [nextValue, setNextValue] = React.useState(calculateNextValue(squares))
   // const [winner, setWinner] = React.useState(calculateWinner(squares))
   // const [status, setStatus] = React.useState(
@@ -54,28 +57,34 @@ function Board() {
     // 🐨 set the value of the square that was selected
     // 💰 `squaresCopy[square] = nextValue`
     squaresCopy[square] = nextValue
-    const newNextValue = calculateNextValue(squaresCopy)
-    const newWinner = calculateWinner(squaresCopy)
-    const newStatus = calculateStatus(newWinner, squaresCopy, newNextValue)
+    // const newNextValue = calculateNextValue(squaresCopy)
+    // const newWinner = calculateWinner(squaresCopy)
+    // const newStatus = calculateStatus(newWinner, squaresCopy, newNextValue)
     //
     // 🐨 set the squares to your copy
     setSquares(squaresCopy)
-    setNextValue(newNextValue)
-    setWinner(newWinner)
-    setStatus(newStatus)
+    nextValue = calculateNextValue(squaresCopy)
+    winner = calculateWinner(squaresCopy)
+    status = calculateStatus(winner, squaresCopy, nextValue)
+    // setNextValue(newNextValue)
+    // setWinner(newWinner)
+    // setStatus(newStatus)
   }
 
   function restart() {
     // 🐨 reset the squares
     // 💰 `Array(9).fill(null)` will do it!
     const newSquares = Array(9).fill(null)
-    const newNextValue = calculateNextValue(newSquares)
-    const newWinner = calculateWinner(newSquares)
-    const newStatus = calculateStatus(newWinner, newSquares, newNextValue)
+    // const newNextValue = calculateNextValue(newSquares)
+    // const newWinner = calculateWinner(newSquares)
+    // const newStatus = calculateStatus(newWinner, newSquares, newNextValue)
     setSquares(newSquares)
-    setNextValue(newNextValue)
-    setWinner(newWinner)
-    setStatus(newStatus)
+    nextValue = calculateNextValue(newSquares)
+    winner = calculateWinner(newSquares)
+    status = calculateStatus(winner, newSquares, nextValue)
+    // setNextValue(newNextValue)
+    // setWinner(newWinner)
+    // setStatus(newStatus)
   }
 
   function renderSquare(i) {
