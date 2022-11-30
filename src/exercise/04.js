@@ -38,24 +38,21 @@ function Game() {
   const [history, setHistory] = useLocalStorageState('history', [
     Array(9).fill(null),
   ])
-  const [currentSquares, setCurrentSquares] = useLocalStorageState(
-    'currentSquares',
-    0,
-  )
+  const [currentStep, setCurrentStep] = useLocalStorageState('currentStep', 0)
 
-  let squares = history[currentSquares]
+  let squares = history[currentStep]
   let nextValue = calculateNextValue(squares)
   let winner = calculateWinner(squares)
   let status = calculateStatus(winner, squares, nextValue)
 
   const selectMove = move => {
-    setCurrentSquares(move)
+    setCurrentStep(move)
     squares = history[move]
   }
 
   const moves = history.map((step, index) => {
     const label = index === 0 ? 'game start' : `move #${index}`
-    const current = index === currentSquares
+    const current = index === currentStep
     return (
       <li key={index}>
         <button disabled={current} onClick={() => selectMove(index)}>
@@ -74,11 +71,11 @@ function Game() {
 
   function selectSquare(square) {
     if (winner || squares[square]) return
-    const newHistory = [...history]
-    const squaresCopy = [...newHistory[currentSquares]]
+    const newHistory = history.slice(0, currentStep + 1)
+    const squaresCopy = [...newHistory[currentStep]]
     squaresCopy[square] = nextValue
     const newCurrent = newHistory.push(squaresCopy)
-    setCurrentSquares(newCurrent - 1)
+    setCurrentStep(newCurrent - 1)
     setHistory(newHistory)
 
     recalculateSquares(squaresCopy)
@@ -87,7 +84,7 @@ function Game() {
   function restart() {
     const newHistory = [Array(9).fill(null)]
     setHistory(newHistory)
-    setCurrentSquares(0)
+    setCurrentStep(0)
     const newSquares = newHistory[0]
     recalculateSquares(newSquares)
   }
