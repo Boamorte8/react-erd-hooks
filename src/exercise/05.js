@@ -2,7 +2,6 @@
 // http://localhost:3000/isolated/exercise/05.js
 
 import * as React from 'react'
-// eslint-disable-next-line no-unused-vars
 import VanillaTilt from 'vanilla-tilt'
 
 function Tilt({children}) {
